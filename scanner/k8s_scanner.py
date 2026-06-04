@@ -1,9 +1,12 @@
+import sys
 import yaml
 
 risk_score = 0
 
-with open("../examples/dangerous-pod.yaml", "r") as file:
-    data = yaml.safe_load(file)
+yaml_file = sys.argv[1]
+
+with open(yaml_file, "r") as file:
+     data = yaml.safe_load(file)
 
 print("===================================")
 print("CloudGuardian AI Security Report")
@@ -38,4 +41,15 @@ if not limits:
 
 print("\n-----------------------------------")
 print(f"Risk Score: {risk_score}/100")
+if risk_score >= 80:
+    print("OVERALL RISK: CRITICAL")
+
+elif risk_score >= 50:
+    print("OVERALL RISK: HIGH")
+
+elif risk_score >= 20:
+    print("OVERALL RISK: MEDIUM")
+
+else:
+    print("OVERALL RISK: LOW")
 print("-----------------------------------")
