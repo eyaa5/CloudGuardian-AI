@@ -7,6 +7,11 @@ init(autoreset=True)
 
 report_lines = []
 
+total_files = 0
+critical_count = 0
+high_count = 0
+medium_count = 0
+
 
 def clean_text(text):
     return (
@@ -19,23 +24,67 @@ def clean_text(text):
 
 
 def add_finding(findings, severity, title, why, fix, color):
+    global critical_count, high_count, medium_count
+
     message = (
         f"{color}[{severity}]{Style.RESET_ALL} {title}\n"
         f"  Why: {why}\n"
         f"  Fix: {fix}"
     )
 
-    findings.append(message)
+    findings.append({"severity": severity, "message": message})
+
+    if severity == "CRITICAL":
+        critical_count += 1
+    elif severity == "HIGH":
+        high_count += 1
+    elif severity == "MEDIUM":
+        medium_count += 1
+
+
+def get_first_container(data):
+    kind = data.get("kind", "")
+
+    if kind == "Pod":
+        return data["spec"]["containers"][0]
+
+    if kind == "Deployment":
+        return data["spec"]["template"]["spec"]["containers"][0]
+
+    return None
 
 
 def scan_file(yaml_file):
+    global total_files
+
+    total_files += 1
     risk_score = 0
     findings = []
 
     with open(yaml_file, "r") as file:
         data = yaml.safe_load(file)
 
-    container = data["spec"]["containers"][0]
+    container = get_first_container(data)
+
+    print("===================================")
+    print("CloudGuardian AI Security Report")
+    print("===================================")
+    print(f"Scanning file: {yaml_file}\n")
+
+    report_lines.append("===================================")
+    report_lines.append("CloudGuardian AI Security Report")
+    report_lines.append("===================================")
+    report_lines.append(f"Scanning file: {yaml_file}")
+    report_lines.append("")
+
+    if container is None:
+        kind = data.get("kind", "Unknown")
+        message = f"Unsupported Kubernetes object: {kind}"
+        print(message)
+        report_lines.append(message)
+        report_lines.append("")
+        return
+
     security_context = container.get("securityContext", {})
     image = container.get("image", "")
     resources = container.get("resources", {})
@@ -147,22 +196,11 @@ def scan_file(yaml_file):
         risk_color = Fore.GREEN
         summary = "Configuration looks secure."
 
-    print("===================================")
-    print("CloudGuardian AI Security Report")
-    print("===================================")
-    print(f"Scanning file: {yaml_file}\n")
-
-    report_lines.append("===================================")
-    report_lines.append("CloudGuardian AI Security Report")
-    report_lines.append("===================================")
-    report_lines.append(f"Scanning file: {yaml_file}")
-    report_lines.append("")
-
     if findings:
         for finding in findings:
-            print(finding)
+            print(finding["message"])
             print()
-            report_lines.append(clean_text(finding))
+            report_lines.append(clean_text(finding["message"]))
             report_lines.append("")
     else:
         print(f"{Fore.GREEN}[OK]{Style.RESET_ALL} No security issues detected.")
@@ -170,12 +208,14 @@ def scan_file(yaml_file):
         report_lines.append("")
 
     print("-----------------------------------")
+    print(f"Findings: {len(findings)}")
     print(f"Risk Score: {risk_score}/100")
     print(f"OVERALL RISK: {risk_color}{overall_risk}{Style.RESET_ALL}")
     print(f"Summary: {summary}")
     print("-----------------------------------\n")
 
     report_lines.append("-----------------------------------")
+    report_lines.append(f"Findings: {len(findings)}")
     report_lines.append(f"Risk Score: {risk_score}/100")
     report_lines.append(f"OVERALL RISK: {overall_risk}")
     report_lines.append(f"Summary: {summary}")
@@ -205,6 +245,25 @@ else:
 
 for yaml_file in yaml_files:
     scan_file(yaml_file)
+
+print("===================================")
+print("SCAN SUMMARY")
+print("===================================")
+print(f"Files Scanned: {total_files}")
+print(f"Critical Findings: {critical_count}")
+print(f"High Findings: {high_count}")
+print(f"Medium Findings: {medium_count}")
+print("===================================")
+
+report_lines.append("")
+report_lines.append("===================================")
+report_lines.append("SCAN SUMMARY")
+report_lines.append("===================================")
+report_lines.append(f"Files Scanned: {total_files}")
+report_lines.append(f"Critical Findings: {critical_count}")
+report_lines.append(f"High Findings: {high_count}")
+report_lines.append(f"Medium Findings: {medium_count}")
+report_lines.append("===================================")
 
 with open("report.txt", "w") as report:
     report.write("\n".join(report_lines))

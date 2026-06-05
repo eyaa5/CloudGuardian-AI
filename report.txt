@@ -28,6 +28,7 @@ Scanning file: examples\dangerous-pod.yaml
   Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
 -----------------------------------
+Findings: 6
 Risk Score: 110/100
 OVERALL RISK: CRITICAL
 Summary: Immediate action required. This workload has serious security risks.
@@ -59,6 +60,7 @@ Scanning file: examples\no-tag-pod.yaml
   Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
 -----------------------------------
+Findings: 5
 Risk Score: 50/100
 OVERALL RISK: HIGH
 Summary: Security issues should be fixed soon.
@@ -69,16 +71,21 @@ CloudGuardian AI Security Report
 ===================================
 Scanning file: examples\safe-pod.yaml
 
-[MEDIUM] Missing image pull policy
-  Why: Without an explicit imagePullPolicy, image behavior may be unclear.
-  Fix: Set imagePullPolicy to IfNotPresent or Always depending on your deployment strategy.
-
-[MEDIUM] Root filesystem is writable
-  Why: A writable root filesystem can allow attackers to modify files inside the container.
-  Fix: Set readOnlyRootFilesystem: true in the securityContext.
+[OK] No security issues detected.
 
 -----------------------------------
-Risk Score: 20/100
-OVERALL RISK: MEDIUM
-Summary: Some security improvements are recommended.
+Findings: 0
+Risk Score: 0/100
+OVERALL RISK: LOW
+Summary: Configuration looks secure.
 -----------------------------------
+
+
+===================================
+SCAN SUMMARY
+===================================
+Files Scanned: 3
+Critical Findings: 2
+High Findings: 1
+Medium Findings: 8
+===================================
