@@ -69,6 +69,22 @@ Summary: Security issues should be fixed soon.
 ===================================
 CloudGuardian AI Security Report
 ===================================
+Scanning file: examples\dangerous-serviceaccount.yaml
+
+[HIGH] Service account token automatically mounted
+  Why: Containers can access Kubernetes API credentials.
+  Fix: Set automountServiceAccountToken: false if API access is not required.
+
+-----------------------------------
+Findings: 1
+Risk Score: 20/100
+OVERALL RISK: MEDIUM
+Summary: Some security improvements are recommended.
+-----------------------------------
+
+===================================
+CloudGuardian AI Security Report
+===================================
 Scanning file: examples\default-namespace.yaml
 
 [MEDIUM] Missing security context
@@ -160,8 +176,8 @@ Summary: Configuration looks secure.
 ===================================
 SCAN SUMMARY
 ===================================
-Files Scanned: 5
+Files Scanned: 6
 Critical Findings: 2
-High Findings: 6
+High Findings: 7
 Medium Findings: 16
 ===================================

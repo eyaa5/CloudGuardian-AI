@@ -57,12 +57,14 @@ def get_first_container(data):
 def calculate_risk_level(risk_score):
     if risk_score >= 80:
         return "CRITICAL", Fore.RED, "Immediate action required. This workload has serious security risks."
-    elif risk_score >= 50:
+
+    if risk_score >= 50:
         return "HIGH", Fore.YELLOW, "Security issues should be fixed soon."
-    elif risk_score >= 20:
+
+    if risk_score >= 20:
         return "MEDIUM", Fore.CYAN, "Some security improvements are recommended."
-    else:
-        return "LOW", Fore.GREEN, "Configuration looks secure."
+
+    return "LOW", Fore.GREEN, "Configuration looks secure."
 
 
 def scan_rbac(data, findings):
@@ -272,6 +274,26 @@ def scan_file(yaml_file):
     metadata = data.get("metadata", {})
     namespace = metadata.get("namespace", "default")
 
+    automount_token = data.get("spec", {}).get(
+        "automountServiceAccountToken",
+        False,
+    )
+
+    if kind == "ServiceAccount":
+        if data.get("automountServiceAccountToken", True):
+            add_finding(
+                findings,
+                "HIGH",
+                "ServiceAccount token auto-mount enabled",
+                "Pods using this service account may automatically receive Kubernetes API credentials.",
+                "Set automountServiceAccountToken: false when API access is not required.",
+                Fore.YELLOW,
+            )
+            risk_score += 20
+
+        print_report(yaml_file, findings, risk_score)
+        return
+
     if kind in ["Role", "ClusterRole"]:
         risk_score += scan_rbac(data, findings)
         print_report(yaml_file, findings, risk_score)
@@ -290,6 +312,17 @@ def scan_file(yaml_file):
         return
 
     risk_score += scan_container(container, findings)
+
+    if automount_token is True:
+        add_finding(
+            findings,
+            "HIGH",
+            "Service account token automatically mounted",
+            "Containers can access Kubernetes API credentials.",
+            "Set automountServiceAccountToken: false if API access is not required.",
+            Fore.YELLOW,
+        )
+        risk_score += 20
 
     if namespace == "default":
         add_finding(
