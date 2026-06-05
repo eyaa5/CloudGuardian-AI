@@ -4,13 +4,33 @@ CloudGuardian AI Security Report
 Scanning file: examples\dangerous-pod.yaml
 
 [CRITICAL] Privileged container detected
+  Why: The container has almost full access to the host system.
+  Fix: Set privileged to false and avoid elevated container permissions.
+
 [CRITICAL] Container running as root
+  Why: Running as root increases the impact of a container compromise.
+  Fix: Use a non-root user such as runAsUser: 1000 and runAsNonRoot: true.
+
 [HIGH] Using latest image tag
+  Why: The latest tag can change over time and introduce unexpected behavior.
+  Fix: Pin the image to a stable version such as nginx:1.25.
+
 [MEDIUM] Missing resource limits
+  Why: Without CPU and memory limits, one container can consume too many cluster resources.
+  Fix: Add resources.limits for cpu and memory.
+
+[MEDIUM] Missing image pull policy
+  Why: Without an explicit imagePullPolicy, image behavior may be unclear.
+  Fix: Set imagePullPolicy to IfNotPresent or Always depending on your deployment strategy.
+
+[MEDIUM] Root filesystem is writable
+  Why: A writable root filesystem can allow attackers to modify files inside the container.
+  Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
 -----------------------------------
-Risk Score: 90/100
+Risk Score: 110/100
 OVERALL RISK: CRITICAL
+Summary: Immediate action required. This workload has serious security risks.
 -----------------------------------
 
 ===================================
@@ -19,12 +39,29 @@ CloudGuardian AI Security Report
 Scanning file: examples\no-tag-pod.yaml
 
 [MEDIUM] Missing security context
+  Why: The container does not define explicit security settings.
+  Fix: Add a securityContext with runAsNonRoot, runAsUser, and readOnlyRootFilesystem.
+
 [MEDIUM] Image has no version tag
+  Why: Images without tags can lead to unpredictable deployments.
+  Fix: Use a fixed image version such as nginx:1.25 instead of nginx.
+
 [MEDIUM] Missing resource limits
+  Why: Without CPU and memory limits, one container can consume too many cluster resources.
+  Fix: Add resources.limits for cpu and memory.
+
+[MEDIUM] Missing image pull policy
+  Why: Without an explicit imagePullPolicy, image behavior may be unclear.
+  Fix: Set imagePullPolicy to IfNotPresent or Always depending on your deployment strategy.
+
+[MEDIUM] Root filesystem is writable
+  Why: A writable root filesystem can allow attackers to modify files inside the container.
+  Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
 -----------------------------------
-Risk Score: 30/100
-OVERALL RISK: MEDIUM
+Risk Score: 50/100
+OVERALL RISK: HIGH
+Summary: Security issues should be fixed soon.
 -----------------------------------
 
 ===================================
@@ -32,8 +69,16 @@ CloudGuardian AI Security Report
 ===================================
 Scanning file: examples\safe-pod.yaml
 
+[MEDIUM] Missing image pull policy
+  Why: Without an explicit imagePullPolicy, image behavior may be unclear.
+  Fix: Set imagePullPolicy to IfNotPresent or Always depending on your deployment strategy.
+
+[MEDIUM] Root filesystem is writable
+  Why: A writable root filesystem can allow attackers to modify files inside the container.
+  Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
 -----------------------------------
-Risk Score: 0/100
-OVERALL RISK: LOW
+Risk Score: 20/100
+OVERALL RISK: MEDIUM
+Summary: Some security improvements are recommended.
 -----------------------------------
