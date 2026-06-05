@@ -124,6 +124,17 @@ def scan_file(yaml_file):
         )
         risk_score += 30
 
+    if security_context.get("runAsNonRoot") is not True:
+        add_finding(
+            findings,
+            "HIGH",
+            "runAsNonRoot is not enabled",
+            "Kubernetes cannot guarantee that the container runs without root privileges.",
+            "Set runAsNonRoot: true in the securityContext.",
+            Fore.YELLOW,
+        )
+        risk_score += 20
+
     if ":" not in image:
         add_finding(
             findings,

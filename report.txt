@@ -11,6 +11,10 @@ Scanning file: examples\dangerous-pod.yaml
   Why: Running as root increases the impact of a container compromise.
   Fix: Use a non-root user such as runAsUser: 1000 and runAsNonRoot: true.
 
+[HIGH] runAsNonRoot is not enabled
+  Why: Kubernetes cannot guarantee that the container runs without root privileges.
+  Fix: Set runAsNonRoot: true in the securityContext.
+
 [HIGH] Using latest image tag
   Why: The latest tag can change over time and introduce unexpected behavior.
   Fix: Pin the image to a stable version such as nginx:1.25.
@@ -28,8 +32,8 @@ Scanning file: examples\dangerous-pod.yaml
   Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
 -----------------------------------
-Findings: 6
-Risk Score: 110/100
+Findings: 7
+Risk Score: 130/100
 OVERALL RISK: CRITICAL
 Summary: Immediate action required. This workload has serious security risks.
 -----------------------------------
@@ -42,6 +46,10 @@ Scanning file: examples\no-tag-pod.yaml
 [MEDIUM] Missing security context
   Why: The container does not define explicit security settings.
   Fix: Add a securityContext with runAsNonRoot, runAsUser, and readOnlyRootFilesystem.
+
+[HIGH] runAsNonRoot is not enabled
+  Why: Kubernetes cannot guarantee that the container runs without root privileges.
+  Fix: Set runAsNonRoot: true in the securityContext.
 
 [MEDIUM] Image has no version tag
   Why: Images without tags can lead to unpredictable deployments.
@@ -60,8 +68,8 @@ Scanning file: examples\no-tag-pod.yaml
   Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
 -----------------------------------
-Findings: 5
-Risk Score: 50/100
+Findings: 6
+Risk Score: 70/100
 OVERALL RISK: HIGH
 Summary: Security issues should be fixed soon.
 -----------------------------------
@@ -86,6 +94,6 @@ SCAN SUMMARY
 ===================================
 Files Scanned: 3
 Critical Findings: 2
-High Findings: 1
+High Findings: 3
 Medium Findings: 8
 ===================================
