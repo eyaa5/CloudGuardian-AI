@@ -31,11 +31,75 @@ Scanning file: examples\dangerous-pod.yaml
   Why: A writable root filesystem can allow attackers to modify files inside the container.
   Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
+[MEDIUM] Using default namespace
+  Why: Resources in the default namespace are harder to manage securely.
+  Fix: Create and use a dedicated namespace for workloads.
+
 -----------------------------------
-Findings: 7
-Risk Score: 130/100
+Findings: 8
+Risk Score: 140/100
 OVERALL RISK: CRITICAL
 Summary: Immediate action required. This workload has serious security risks.
+-----------------------------------
+
+===================================
+CloudGuardian AI Security Report
+===================================
+Scanning file: examples\dangerous-role.yaml
+
+[HIGH] Wildcard verb detected
+  Why: The role allows all Kubernetes actions.
+  Fix: Replace '*' with only the required verbs.
+
+[HIGH] Wildcard resource access
+  Why: The role can access all Kubernetes resources.
+  Fix: Limit access to specific resources.
+
+[MEDIUM] Wildcard API group detected
+  Why: The role applies to all Kubernetes API groups.
+  Fix: Restrict apiGroups to only the required API groups.
+
+-----------------------------------
+Findings: 3
+Risk Score: 50/100
+OVERALL RISK: HIGH
+Summary: Security issues should be fixed soon.
+-----------------------------------
+
+===================================
+CloudGuardian AI Security Report
+===================================
+Scanning file: examples\default-namespace.yaml
+
+[MEDIUM] Missing security context
+  Why: The container does not define explicit security settings.
+  Fix: Add a securityContext with runAsNonRoot, runAsUser, and readOnlyRootFilesystem.
+
+[HIGH] runAsNonRoot is not enabled
+  Why: Kubernetes cannot guarantee that the container runs without root privileges.
+  Fix: Set runAsNonRoot: true in the securityContext.
+
+[MEDIUM] Missing resource limits
+  Why: Without CPU and memory limits, one container can consume too many cluster resources.
+  Fix: Add resources.limits for cpu and memory.
+
+[MEDIUM] Missing image pull policy
+  Why: Without an explicit imagePullPolicy, image behavior may be unclear.
+  Fix: Set imagePullPolicy to IfNotPresent or Always depending on your deployment strategy.
+
+[MEDIUM] Root filesystem is writable
+  Why: A writable root filesystem can allow attackers to modify files inside the container.
+  Fix: Set readOnlyRootFilesystem: true in the securityContext.
+
+[MEDIUM] Using default namespace
+  Why: Resources in the default namespace are harder to manage securely.
+  Fix: Create and use a dedicated namespace for workloads.
+
+-----------------------------------
+Findings: 6
+Risk Score: 70/100
+OVERALL RISK: HIGH
+Summary: Security issues should be fixed soon.
 -----------------------------------
 
 ===================================
@@ -67,11 +131,15 @@ Scanning file: examples\no-tag-pod.yaml
   Why: A writable root filesystem can allow attackers to modify files inside the container.
   Fix: Set readOnlyRootFilesystem: true in the securityContext.
 
+[MEDIUM] Using default namespace
+  Why: Resources in the default namespace are harder to manage securely.
+  Fix: Create and use a dedicated namespace for workloads.
+
 -----------------------------------
-Findings: 6
-Risk Score: 70/100
-OVERALL RISK: HIGH
-Summary: Security issues should be fixed soon.
+Findings: 7
+Risk Score: 80/100
+OVERALL RISK: CRITICAL
+Summary: Immediate action required. This workload has serious security risks.
 -----------------------------------
 
 ===================================
@@ -92,8 +160,8 @@ Summary: Configuration looks secure.
 ===================================
 SCAN SUMMARY
 ===================================
-Files Scanned: 3
+Files Scanned: 5
 Critical Findings: 2
-High Findings: 3
-Medium Findings: 8
+High Findings: 6
+Medium Findings: 16
 ===================================

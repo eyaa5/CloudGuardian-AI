@@ -54,36 +54,60 @@ def get_first_container(data):
     return None
 
 
-def scan_file(yaml_file):
-    global total_files
+def calculate_risk_level(risk_score):
+    if risk_score >= 80:
+        return "CRITICAL", Fore.RED, "Immediate action required. This workload has serious security risks."
+    elif risk_score >= 50:
+        return "HIGH", Fore.YELLOW, "Security issues should be fixed soon."
+    elif risk_score >= 20:
+        return "MEDIUM", Fore.CYAN, "Some security improvements are recommended."
+    else:
+        return "LOW", Fore.GREEN, "Configuration looks secure."
 
-    total_files += 1
+
+def scan_rbac(data, findings):
     risk_score = 0
-    findings = []
+    rules = data.get("rules", [])
 
-    with open(yaml_file, "r") as file:
-        data = yaml.safe_load(file)
+    for rule in rules:
+        if "*" in rule.get("verbs", []):
+            add_finding(
+                findings,
+                "HIGH",
+                "Wildcard verb detected",
+                "The role allows all Kubernetes actions.",
+                "Replace '*' with only the required verbs.",
+                Fore.YELLOW,
+            )
+            risk_score += 20
 
-    container = get_first_container(data)
+        if "*" in rule.get("resources", []):
+            add_finding(
+                findings,
+                "HIGH",
+                "Wildcard resource access",
+                "The role can access all Kubernetes resources.",
+                "Limit access to specific resources.",
+                Fore.YELLOW,
+            )
+            risk_score += 20
 
-    print("===================================")
-    print("CloudGuardian AI Security Report")
-    print("===================================")
-    print(f"Scanning file: {yaml_file}\n")
+        if "*" in rule.get("apiGroups", []):
+            add_finding(
+                findings,
+                "MEDIUM",
+                "Wildcard API group detected",
+                "The role applies to all Kubernetes API groups.",
+                "Restrict apiGroups to only the required API groups.",
+                Fore.CYAN,
+            )
+            risk_score += 10
 
-    report_lines.append("===================================")
-    report_lines.append("CloudGuardian AI Security Report")
-    report_lines.append("===================================")
-    report_lines.append(f"Scanning file: {yaml_file}")
-    report_lines.append("")
+    return risk_score
 
-    if container is None:
-        kind = data.get("kind", "Unknown")
-        message = f"Unsupported Kubernetes object: {kind}"
-        print(message)
-        report_lines.append(message)
-        report_lines.append("")
-        return
+
+def scan_container(container, findings):
+    risk_score = 0
 
     security_context = container.get("securityContext", {})
     image = container.get("image", "")
@@ -190,22 +214,22 @@ def scan_file(yaml_file):
         )
         risk_score += 10
 
-    if risk_score >= 80:
-        overall_risk = "CRITICAL"
-        risk_color = Fore.RED
-        summary = "Immediate action required. This workload has serious security risks."
-    elif risk_score >= 50:
-        overall_risk = "HIGH"
-        risk_color = Fore.YELLOW
-        summary = "Security issues should be fixed soon."
-    elif risk_score >= 20:
-        overall_risk = "MEDIUM"
-        risk_color = Fore.CYAN
-        summary = "Some security improvements are recommended."
-    else:
-        overall_risk = "LOW"
-        risk_color = Fore.GREEN
-        summary = "Configuration looks secure."
+    return risk_score
+
+
+def print_report(yaml_file, findings, risk_score):
+    overall_risk, risk_color, summary = calculate_risk_level(risk_score)
+
+    print("===================================")
+    print("CloudGuardian AI Security Report")
+    print("===================================")
+    print(f"Scanning file: {yaml_file}\n")
+
+    report_lines.append("===================================")
+    report_lines.append("CloudGuardian AI Security Report")
+    report_lines.append("===================================")
+    report_lines.append(f"Scanning file: {yaml_file}")
+    report_lines.append("")
 
     if findings:
         for finding in findings:
@@ -234,6 +258,53 @@ def scan_file(yaml_file):
     report_lines.append("")
 
 
+def scan_file(yaml_file):
+    global total_files
+
+    total_files += 1
+    findings = []
+    risk_score = 0
+
+    with open(yaml_file, "r") as file:
+        data = yaml.safe_load(file)
+
+    kind = data.get("kind", "")
+    metadata = data.get("metadata", {})
+    namespace = metadata.get("namespace", "default")
+
+    if kind in ["Role", "ClusterRole"]:
+        risk_score += scan_rbac(data, findings)
+        print_report(yaml_file, findings, risk_score)
+        return
+
+    container = get_first_container(data)
+
+    if container is None:
+        findings.append(
+            {
+                "severity": "INFO",
+                "message": f"Unsupported Kubernetes object: {kind}",
+            }
+        )
+        print_report(yaml_file, findings, risk_score)
+        return
+
+    risk_score += scan_container(container, findings)
+
+    if namespace == "default":
+        add_finding(
+            findings,
+            "MEDIUM",
+            "Using default namespace",
+            "Resources in the default namespace are harder to manage securely.",
+            "Create and use a dedicated namespace for workloads.",
+            Fore.CYAN,
+        )
+        risk_score += 10
+
+    print_report(yaml_file, findings, risk_score)
+
+
 if len(sys.argv) < 2:
     print("Usage: python k8s_scanner.py <yaml-file-or-folder>")
     sys.exit(1)
@@ -254,8 +325,10 @@ else:
     print("Error: Path not found")
     sys.exit(1)
 
+
 for yaml_file in yaml_files:
     scan_file(yaml_file)
+
 
 print("===================================")
 print("SCAN SUMMARY")
