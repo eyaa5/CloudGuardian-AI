@@ -16,8 +16,9 @@ The platform combines automated security scanning, risk scoring, compliance vali
 * Pod Security Validation
 * Resource Configuration Checks
 * Container Security Assessment
-* CIS Kubernetes Benchmark Checks
 * RBAC Security Analysis
+* ServiceAccount Security Validation
+* Namespace Security Checks
 * Risk Scoring and Reporting
 
 ### AWS Security Analysis
@@ -45,14 +46,38 @@ The platform combines automated security scanning, risk scoring, compliance vali
 
 The current implementation analyzes Kubernetes manifests and detects:
 
+#### Container Security
+
 * Privileged Containers
 * Containers Running as Root
 * Missing Security Context
 * Missing Resource Limits
-* Use of Latest Image Tags
-* Missing Image Version Tags
 * Missing Image Pull Policies
 * Writable Root Filesystems
+* Missing Image Version Tags
+* Use of Latest Image Tags
+* Missing runAsNonRoot Configuration
+
+#### Namespace Security
+
+* Default Namespace Usage Detection
+
+#### RBAC Security
+
+* Wildcard Verbs (`*`)
+* Wildcard Resources (`*`)
+* Wildcard API Groups (`*`)
+
+#### ServiceAccount Security
+
+* Automatic ServiceAccount Token Mounting
+
+#### Reporting
+
+* Risk Scoring Engine
+* Human-Readable Security Reports
+* Scan Summary Dashboard
+* Severity-Based Findings
 
 For each finding, CloudGuardian AI provides:
 
@@ -67,7 +92,9 @@ For each finding, CloudGuardian AI provides:
 
 ```text
 [CRITICAL] Container running as root
+
 Why: Running as root increases the impact of a container compromise.
+
 Fix: Use runAsUser: 1000 and runAsNonRoot: true.
 
 Risk Score: 90/100
@@ -103,16 +130,19 @@ Future versions will leverage:
 * AWS Lambda
 * Amazon DynamoDB
 * Amazon S3
-* CloudWatch
+* Amazon CloudWatch
 * GitHub Actions
 
 ---
 
 ## Roadmap
 
-### Version 1 – Kubernetes YAML Scanner
+### Version 1 – Kubernetes YAML Scanner 
 
 * YAML Security Analysis
+* RBAC Security Analysis
+* ServiceAccount Validation
+* Namespace Security Validation
 * Risk Scoring Engine
 * Report Generation
 
@@ -121,38 +151,44 @@ Future versions will leverage:
 * Live Cluster Security Auditing
 * Namespace Analysis
 * RBAC Review
+* ServiceAccount Review
+* Cluster-Wide Risk Assessment
 
 ### Version 3 – AWS Security Scanner
 
 * IAM Analysis
 * S3 Security Review
 * Security Group Assessment
+* CloudTrail Validation
 
 ### Version 4 – Compliance Engine
 
 * CIS Benchmark Validation
 * Security Best Practices Verification
+* Compliance Reporting
 
 ### Version 5 – AI Remediation Engine
 
 * Amazon Bedrock Integration
 * AI-Generated Fix Recommendations
+* Intelligent Security Explanations
 
 ### Version 6 – Security Dashboard
 
 * Web Dashboard
 * Historical Scan Tracking
 * Security Trend Analysis
+* Security Posture Visualization
 
 ---
 
 ## Project Status
 
- Active Development
+Active Development
 
-Current Version: Kubernetes YAML Security Scanner
+**Current Version:** Kubernetes YAML Security Scanner v1.0
 
-Upcoming Release: Kubernetes Cluster Security Scanner
+**Next Release:** Kubernetes Cluster Security Scanner
 
 ---
 
