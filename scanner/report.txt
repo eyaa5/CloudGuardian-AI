@@ -1,0 +1,6 @@
+[CRITICAL] Privileged container detected
+Risk Score: 90/100
+OVERALL RISK: CRITICAL
+
+Risk Score: 0/100
+OVERALL RISK: LOW

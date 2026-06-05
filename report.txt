@@ -1,0 +1,39 @@
+===================================
+CloudGuardian AI Security Report
+===================================
+Scanning file: examples\dangerous-pod.yaml
+
+[CRITICAL] Privileged container detected
+[CRITICAL] Container running as root
+[HIGH] Using latest image tag
+[MEDIUM] Missing resource limits
+
+-----------------------------------
+Risk Score: 90/100
+OVERALL RISK: CRITICAL
+-----------------------------------
+
+===================================
+CloudGuardian AI Security Report
+===================================
+Scanning file: examples\no-tag-pod.yaml
+
+[MEDIUM] Missing security context
+[MEDIUM] Image has no version tag
+[MEDIUM] Missing resource limits
+
+-----------------------------------
+Risk Score: 30/100
+OVERALL RISK: MEDIUM
+-----------------------------------
+
+===================================
+CloudGuardian AI Security Report
+===================================
+Scanning file: examples\safe-pod.yaml
+
+
+-----------------------------------
+Risk Score: 0/100
+OVERALL RISK: LOW
+-----------------------------------
