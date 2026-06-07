@@ -1,6 +1,6 @@
-==================================================
+============================================================
 CloudGuardian AI Cluster Security Report
-==================================================
+============================================================
 Total Pods: 7
 
 Pod Name : coredns-7d764666f9-f2m5h
@@ -8,54 +8,120 @@ Namespace: kube-system
 Status   : Running
 Health   : HEALTHY
 Image    : registry.k8s.io/coredns/coredns:v1.13.1
---------------------------------------------------
+------------------------------------------------------------
 Pod Name : etcd-minikube
 Namespace: kube-system
 Status   : Running
 Health   : HEALTHY
 Image    : registry.k8s.io/etcd:3.6.6-0
---------------------------------------------------
+------------------------------------------------------------
 Pod Name : kube-apiserver-minikube
 Namespace: kube-system
 Status   : Running
 Health   : HEALTHY
 Image    : registry.k8s.io/kube-apiserver:v1.35.1
---------------------------------------------------
+------------------------------------------------------------
 Pod Name : kube-controller-manager-minikube
 Namespace: kube-system
 Status   : Running
 Health   : HEALTHY
 Image    : registry.k8s.io/kube-controller-manager:v1.35.1
---------------------------------------------------
+------------------------------------------------------------
 Pod Name : kube-proxy-5h5ms
 Namespace: kube-system
 Status   : Running
 Health   : HEALTHY
 Image    : registry.k8s.io/kube-proxy:v1.35.1
 Critical : Privileged container detected
---------------------------------------------------
+------------------------------------------------------------
 Pod Name : kube-scheduler-minikube
 Namespace: kube-system
 Status   : Running
 Health   : HEALTHY
 Image    : registry.k8s.io/kube-scheduler:v1.35.1
---------------------------------------------------
+------------------------------------------------------------
 Pod Name : storage-provisioner
 Namespace: kube-system
 Status   : Running
 Health   : HEALTHY
 Image    : gcr.io/k8s-minikube/storage-provisioner:v5
---------------------------------------------------
+------------------------------------------------------------
 
-==================================================
+============================================================
+RBAC Security Analysis
+============================================================
+Critical : Wildcard RBAC permission detected
+Role     : cluster-admin
+API      : ['*']
+Resource : ['*']
+Verbs    : ['*']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+Critical : Wildcard RBAC permission detected
+Role     : system:controller:disruption-controller
+API      : ['*']
+Resource : ['*/scale']
+Verbs    : ['get']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+Critical : Wildcard RBAC permission detected
+Role     : system:controller:generic-garbage-collector
+API      : ['*']
+Resource : ['*']
+Verbs    : ['delete', 'get', 'list', 'patch', 'update', 'watch']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+Critical : Wildcard RBAC permission detected
+Role     : system:controller:horizontal-pod-autoscaler
+API      : ['*']
+Resource : ['*/scale']
+Verbs    : ['get', 'update']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+Critical : Wildcard RBAC permission detected
+Role     : system:controller:namespace-controller
+API      : ['*']
+Resource : ['*']
+Verbs    : ['delete', 'deletecollection', 'get', 'list', 'watch']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+Critical : Wildcard RBAC permission detected
+Role     : system:controller:resourcequota-controller
+API      : ['*']
+Resource : ['*']
+Verbs    : ['list', 'watch']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+Critical : Wildcard RBAC permission detected
+Role     : system:kube-controller-manager
+API      : ['*']
+Resource : ['*']
+Verbs    : ['list', 'watch']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+Critical : Wildcard RBAC permission detected
+Role     : system:kubelet-api-admin
+API      : ['']
+Resource : ['nodes/log', 'nodes/metrics', 'nodes/proxy', 'nodes/stats']
+Verbs    : ['*']
+Risk     : This role may grant broad cluster access.
+------------------------------------------------------------
+
+============================================================
 Security Analysis
-==================================================
-Cluster Risk Score : 15/100
-Security Status    : LOW RISK
-Security Warnings  : 1
+============================================================
+Cluster Risk Score : 100/100
+Security Status    : HIGH RISK
+Security Warnings  : 0
+Critical Findings  : 9
 
-==================================================
+============================================================
 Cluster Summary
-==================================================
+============================================================
 Healthy Pods   : 7
 Unhealthy Pods : 0
+
+============================================================
+Final Verdict
+============================================================
+Cluster has serious security risks. Immediate action is recommended.
