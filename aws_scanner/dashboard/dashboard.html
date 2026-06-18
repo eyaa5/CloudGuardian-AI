@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CloudGuardian AI Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #e5e7eb;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #38bdf8;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #334155;
+        }
+
+        .metric {
+            font-size: 30px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .safe {
+            color: #22c55e;
+        }
+
+        .warning {
+            color: #facc15;
+        }
+
+        .critical {
+            color: #ef4444;
+        }
+
+        ul {
+            line-height: 1.8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border-bottom: 1px solid #334155;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            color: #38bdf8;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #94a3b8;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>CloudGuardian AI</h1>
+    <p class="subtitle">Cloud Security Dashboard for Kubernetes and AWS</p>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Kubernetes Risk</h3>
+            <div class="metric warning">15/100</div>
+        </div>
+
+        <div class="card">
+            <h3>AWS Risk</h3>
+            <div class="metric safe">0/100</div>
+        </div>
+
+        <div class="card">
+            <h3>Kubernetes Pods</h3>
+            <div class="metric safe">7</div>
+        </div>
+
+        <div class="card">
+            <h3>AWS Warnings</h3>
+            <div class="metric safe">0</div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Project Summary</h2>
+        <p>
+            CloudGuardian AI performs automated security analysis for Kubernetes and AWS environments.
+            It detects misconfigurations, evaluates security risks, and generates human-readable reports.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>Security Findings</h2>
+        <table>
+            <tr>
+                <th>Environment</th>
+                <th>Check</th>
+                <th>Status</th>
+                <th>Result</th>
+            </tr>
+            <tr>
+                <td>Kubernetes</td>
+                <td>Privileged Container Detection</td>
+                <td class="warning">Warning</td>
+                <td>Privileged container detected</td>
+            </tr>
+            <tr>
+                <td>Kubernetes</td>
+                <td>Pod Health Analysis</td>
+                <td class="safe">Healthy</td>
+                <td>7 pods running</td>
+            </tr>
+            <tr>
+                <td>AWS</td>
+                <td>IAM Analysis</td>
+                <td class="safe">Safe</td>
+                <td>1 IAM user found</td>
+            </tr>
+            <tr>
+                <td>AWS</td>
+                <td>S3 Analysis</td>
+                <td class="safe">Safe</td>
+                <td>2 CloudTrail buckets found</td>
+            </tr>
+            <tr>
+                <td>AWS</td>
+                <td>CloudTrail Validation</td>
+                <td class="safe">Safe</td>
+                <td>CloudTrail enabled</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Completed Modules</h2>
+        <ul>
+            <li>Kubernetes YAML Security Scanner</li>
+            <li>Kubernetes Cluster Security Scanner</li>
+            <li>RBAC Security Analysis</li>
+            <li>Privileged Container Detection</li>
+            <li>AWS IAM Analysis</li>
+            <li>AWS S3 Bucket Analysis</li>
+            <li>AWS Security Group Analysis</li>
+            <li>AWS CloudTrail Validation</li>
+            <li>Risk Scoring Engine</li>
+            <li>Security Report Export</li>
+            <li>Security Dashboard</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Final Security Verdict</h2>
+        <p class="safe">
+            AWS environment is safe based on current checks.
+        </p>
+        <p class="warning">
+            Kubernetes environment is mostly secure, with minor warnings to review.
+        </p>
+    </div>
+
+    <footer>
+        CloudGuardian AI v4.0 Dashboard Preview | Built by Eya Farhat
+    </footer>
+
+</div>
+</body>
+</html>
