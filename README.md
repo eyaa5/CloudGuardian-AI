@@ -1,3 +1,61 @@
+# CloudGuardian AI
+
+AI-Powered Cloud Security Platform for AWS and Kubernetes
+
+CloudGuardian AI is an open-source cloud security platform designed to identify security risks, misconfigurations, and compliance issues across Kubernetes clusters and AWS environments.
+
+The platform performs automated security assessments, calculates risk scores, generates security reports, and provides an interactive dashboard for visualizing security findings.
+
+---
+
+## Dashboard Preview
+
+![CloudGuardian AI Dashboard](docs/dashboard.png)
+
+---
+
+## Features
+
+### Kubernetes Security
+
+- Kubernetes YAML Security Scanner
+- Kubernetes Cluster Security Scanner
+- RBAC Security Analysis
+- Privileged Container Detection
+- Wildcard Permission Detection
+- Pod Health Analysis
+- Container Security Analysis
+- Cluster Risk Assessment
+
+### AWS Security
+
+- IAM Analysis
+- S3 Bucket Security Review
+- Security Group Assessment
+- CloudTrail Validation
+- AWS Risk Scoring
+- AWS Security Reporting
+
+### Reporting & Visualization
+
+- Security Risk Scoring Engine
+- Security Report Generation
+- Security Report Export
+- Interactive Security Dashboard
+- Security Findings Visualization
+
+---
+
+## Technology Stack
+
+- Python
+- Kubernetes
+- AWS
+- HTML
+- CSS
+
+---
+
 ## Roadmap
 
 ### Version 1 – Kubernetes YAML Security Scanner  COMPLETED
@@ -60,32 +118,32 @@
 
 ### Completed Modules
 
- Kubernetes YAML Security Scanner
+- Kubernetes YAML Security Scanner
+- Kubernetes Cluster Security Scanner
+- Pod Security Analysis
+- Container Security Analysis
+- RBAC Security Analysis
+- Wildcard Permission Detection
+- Privileged Container Detection
+- AWS IAM Analysis
+- AWS S3 Bucket Analysis
+- AWS Security Group Analysis
+- AWS CloudTrail Validation
+- AWS Risk Scoring Engine
+- Security Dashboard
+- Security Report Generation
+- Security Report Export
 
- Kubernetes Cluster Security Scanner
+---
 
- Pod Security Analysis
+## License
 
- Container Security Analysis
+This project is licensed under the MIT License.
 
- RBAC Security Analysis
+---
 
- Wildcard Permission Detection
+## Author
 
- Privileged Container Detection
+**Eya Farhat**
 
- AWS IAM Analysis
-
- AWS S3 Bucket Analysis
-
- AWS Security Group Analysis
-
- AWS CloudTrail Validation
-
- AWS Risk Scoring Engine
-
- Security Dashboard
-
- Security Report Generation
-
- Security Report Export
+CloudGuardian AI Security Platform
