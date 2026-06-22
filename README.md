@@ -142,6 +142,11 @@ This project is licensed under the MIT License.
 
 ---
 
+## Documentation
+
+- [Architecture Overview](docs/architecture.md)
+- [Version History](docs/version-history.md)
+
 ## Author
 
 **Eya Farhat**
