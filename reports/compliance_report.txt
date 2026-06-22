@@ -1,0 +1,41 @@
+======================================
+CloudGuardian AI Compliance Report
+======================================
+CloudTrail Enabled        PASS
+IAM Wildcards             FAIL
+
+Finding: IAM Wildcards
+
+Risk:
+Administrator access to all resources.
+Severity: HIGH
+
+Recommendation:
+Apply least-privilege permissions.
+
+Public S3 Buckets         FAIL
+
+Finding: Public S3 Buckets
+
+Risk:
+Public buckets may expose sensitive data.
+Severity: HIGH
+
+Recommendation:
+Disable public access and enable bucket policies.
+
+Security Groups           FAIL
+
+Finding: Security Groups
+
+Risk:
+Inbound traffic is open to the internet.
+Severity: MEDIUM
+
+Recommendation:
+Restrict access to trusted IP addresses.
+
+--------------------------------------
+Compliance Score: 25%
+
+Compliance Status: NON-COMPLIANT
