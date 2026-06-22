@@ -1,0 +1,55 @@
+============================================================
+CloudGuardian AI Remediation Report
+============================================================
+
+------------------------------------------------------------
+Finding: IAM Wildcards
+Severity: HIGH
+
+Risk:
+Wildcard IAM permissions can allow full access to AWS services and resources.
+
+AI Explanation:
+CloudGuardian AI identified overly broad IAM permissions. This increases the risk of privilege escalation and unauthorized access.
+
+AI Recommendation:
+Replace wildcard permissions with least-privilege IAM policies. Allow only the specific AWS actions and resources required by the workload.
+
+------------------------------------------------------------
+Finding: Public S3 Bucket
+Severity: HIGH
+
+Risk:
+Public S3 buckets may expose sensitive data to unauthorized users.
+
+AI Explanation:
+CloudGuardian AI detected a potential public storage exposure risk. Public buckets can lead to accidental data leaks.
+
+AI Recommendation:
+Enable S3 Block Public Access, review bucket policies, and allow access only to trusted identities.
+
+------------------------------------------------------------
+Finding: Security Group
+Severity: MEDIUM
+
+Risk:
+Open inbound security group rules can expose cloud resources to the internet.
+
+AI Explanation:
+CloudGuardian AI identified network exposure. Open inbound access increases the attack surface of the environment.
+
+AI Recommendation:
+Restrict inbound traffic to trusted IP ranges and close unnecessary ports.
+
+------------------------------------------------------------
+Finding: Privileged Container
+Severity: CRITICAL
+
+Risk:
+Privileged containers can access host resources and increase compromise impact.
+
+AI Explanation:
+CloudGuardian AI detected a high-risk Kubernetes container configuration. Privileged mode weakens container isolation.
+
+AI Recommendation:
+Disable privileged mode and use restricted security contexts.
