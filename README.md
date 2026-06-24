@@ -1,6 +1,6 @@
 # CloudGuardian AI
 
-AI-Powered Cloud Security Platform for AWS and Kubernetes
+### AI-Powered Cloud Security Platform for Kubernetes and AWS
 
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-Security%20Scanner-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
@@ -9,13 +9,9 @@ AI-Powered Cloud Security Platform for AWS and Kubernetes
 ![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-v6.0%20Complete-brightgreen?style=for-the-badge)
 
-CloudGuardian AI is an open-source cloud security platform designed to identify security risks, misconfigurations, and compliance issues across Kubernetes clusters and AWS environments.
-
-The platform performs automated security assessments, calculates risk scores, generates security reports, and provides an interactive dashboard for visualizing security findings.
-
----
-
-## Dashboard Preview
+![GitHub stars](https://img.shields.io/github/stars/eyaa5/CloudGuardian-AI?style=for-the-badge)
+![GitHub forks](https://img.shields.io/github/forks/eyaa5/CloudGuardian-AI?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/eyaa5/CloudGuardian-AI?style=for-the-badge)
 
 ![CloudGuardian AI Dashboard](docs/dashboard.png)
 
