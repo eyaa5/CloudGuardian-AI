@@ -1,4 +1,5 @@
 # CloudGuardian AI
+[![CI](https://github.com/eyaa5/CloudGuardian-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/eyaa5/CloudGuardian-AI/actions)
 
 ### AI-Powered Cloud Security Platform for Kubernetes and AWS
 
